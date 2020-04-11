@@ -4,6 +4,13 @@ from typing import BinaryIO, Union
 from base64 import b64encode
 
 
+class DotDict(dict):
+    """dot.notation access to dictionary attributes"""
+    __getattr__ = dict.get
+    __setattr__ = dict.__setitem__
+    __delattr__ = dict.__delitem__
+
+
 class DownloadStation:
     PROTOCOL = 'http'
     APP_NAME = 'downloadstation'
@@ -53,13 +60,12 @@ class DownloadStation:
 
         error_code = json_body['error']
         if error_code:
-
             if error_code in self.ERROR_CODE:
                 raise RequestError(
                     f'{error_code}({self.ERROR_CODE[error_code]}) {json_body["reason"]}')
             raise RequestError(f'{error_code} {json_body["reason"]}')
 
-        return json_body
+        return DotDict(json_body)
 
     def _handle(self, group, task, params=None, files=None):
         if params is None:
@@ -162,15 +168,20 @@ class DownloadStation:
     def task_detail(self, **extra):
         return self._handle('task', 'detail', params=extra)
 
-    def task_add_url(self, url: str, temp: str, move: str, **extra):
-        return self._handle('task', 'add_url', params=dict(
-            url=url,
-            temp=temp,
-            move=move,
-            **extra
-        ))
+    def task_add_url(self, url: str, move: str, temp: str = None, **extra):
+        if temp is None:
+            temp = move
 
-    def task_add_torrent(self, file: Union[BinaryIO, str], temp: str, move: str, **extra):
+        return self._handle('task', 'add_url', params=dict({
+            'url': url,
+            'temp': temp,
+            'move': move,
+        }, **extra))
+
+    def task_add_torrent(self, file: Union[BinaryIO, str], move: str, temp: str = None, **extra):
+        if temp is None:
+            temp = move
+
         need_close = False
 
         try:
@@ -193,23 +204,23 @@ class DownloadStation:
             if need_close:
                 file.close()
 
-    def task_start(self, **extra):
-        return self._handle('task', 'start', params=extra)
+    def task_start(self, _hash: str, **extra):
+        return self._handle('task', 'start', params=dict({'hash': _hash}, **extra))
 
-    def task_stop(self, **extra):
-        return self._handle('task', 'stop', params=extra)
+    def task_stop(self, _hash: str, **extra):
+        return self._handle('task', 'stop', params=dict({'hash': _hash}, **extra))
 
-    def task_pause(self, **extra):
-        return self._handle('task', 'pause', params=extra)
+    def task_pause(self, _hash, **extra):
+        return self._handle('task', 'pause', params=dict({'hash': _hash}, **extra))
 
-    def task_remove(self, **extra):
-        return self._handle('task', 'remove', params=extra)
+    def task_remove(self, _hash, **extra):
+        return self._handle('task', 'remove', params=dict({'hash': _hash}, **extra))
 
     def task_priority(self, **extra):
         return self._handle('task', 'priority', params=extra)
 
-    def task_get_file(self, **extra):
-        return self._handle('task', 'get_file', params=extra)
+    def task_get_file(self, _hash: str, **extra):
+        return self._handle('task', 'get_file', params=dict({'hash': _hash}, **extra))
 
     def task_set_file(self, **extra):
         return self._handle('task', 'set_file', params=extra)
