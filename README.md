@@ -35,7 +35,7 @@ download
 ```
 
 tasks message
-```
+```python
 >>> res = app.task_query()
 >>> res.data
 [{'files': [{filename': '<filename>', 'hash': '405d92f1efda61e3890a16ee552e6f531a34ab98', 'priority': 1, 'size': 155789}, ...}]
