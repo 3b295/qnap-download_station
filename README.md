@@ -12,7 +12,7 @@ This is the python version of [this library](https://github.com/cyclotron3k/qnap
 # Usage
 
 ```python
->>> from qnap_downstation import DownloadStation
+>>> from qnap_downloadstation import DownloadStation
 >>> app = DownloadStation('nas.3b295.com:8080', 'user', 'password')
 >>> app.task_status()
 >>> app.data

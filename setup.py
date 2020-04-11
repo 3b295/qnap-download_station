@@ -8,7 +8,7 @@ setup(
         description='an unofficial client for the QNAP api,',
         author='3b295',
         author_email='xwystz@gmail.com',
-        packages=['qnap_downstation'],
+        packages=['qnap_downloadstation'],
 )
 
 install_requires=[
