@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import requests
 
 from typing import BinaryIO, Union
@@ -54,16 +55,16 @@ class DownloadStation:
     def _despatch_query(self, uri, params=None, files=None):
         response = self.session.post(uri, data=params, files=files)
         if response.status_code != 200:
-            raise ServerError(f'request err. status: {response.status_code}')
+            raise ServerError('request err. status: {}'.format(response.status_code))
 
         json_body = response.json()
 
         error_code = json_body['error']
         if error_code:
             if error_code in self.ERROR_CODE:
-                raise RequestError(
-                    f'{error_code}({self.ERROR_CODE[error_code]}) {json_body["reason"]}')
-            raise RequestError(f'{error_code} {json_body["reason"]}')
+                raise RequestError('{}({}) {}'.format(
+                    error_code, self.ERROR_CODE[error_code], json_body["reason"]))
+            raise RequestError('{} {}'.format(error_code, json_body["reason"]))
 
         return DotDict(json_body)
 
