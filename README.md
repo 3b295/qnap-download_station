@@ -4,6 +4,11 @@ This software is an unofficial client for the QNAP api. May be unavailable due t
 
 This is the python version of [this library](https://github.com/cyclotron3k/qnap-download_station).
 
+# Install
+```bash
+    pip install git+https://github.com/3b295/qnap-download_station.git
+```
+
 # Usage
 
 ```python
