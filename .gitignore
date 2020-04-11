@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # scratch
-# /scratch.py
+/scratch.py
