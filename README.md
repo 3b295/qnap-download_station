@@ -38,7 +38,7 @@ tasks message
 ```python
 >>> res = app.task_query()
 >>> res.data
-[{'files': [{filename': '<filename>', 'hash': '405d92f1efda61e3890a16ee552e6f531a34ab98', 'priority': 1, 'size': 155789}, ...}]
+[{'files': [{filename': '<filename>', 'hash': '<hash>', 'priority': 1, 'size': 155789}, ...}]
 
 # sorted by field
 >>> res = app.task_query(field='create_time', reverse=False)
