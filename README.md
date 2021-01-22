@@ -14,8 +14,8 @@ This is the python version of [this library](https://github.com/cyclotron3k/qnap
 ```python
 >>> from qnap_downloadstation import DownloadStation
 >>> app = DownloadStation('nas.3b295.com:8080', 'user', 'password')
->>> app.task_status()
->>> app.data
+>>> resp = app.task_status()
+>>> resp.data
 {'active': 1, 'all': 112, 'bt': 112, 'completed': 103, 'down_rate': 1075, 'downloading': 8, 'inactive': 111, 'paused': 0, 'seeding': 1, 'stopped': 0, 'up_rate': 0, 'url': 0}
 ```
 
